@@ -31,7 +31,7 @@ Flake лежит в `client/`. Собирает GUI (Qt6), root-хелпер (Go
 
 ```nix
 programs.yggguard.peers = [
-  https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
+  # чекай пиры игга, если из РФ: https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
 ];
 ```
 
