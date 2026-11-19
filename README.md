@@ -2,14 +2,6 @@
 
 Flake лежит в `client/`. Собирает GUI (Qt6), root-хелпер (Go) и берёт `yggdrasil` и `sing-box` из nixpkgs.
 
-## Быстрый запуск
-
-```bash
-nix run "github:ВАШ_ЛОГИН/YggGuard?dir=client"
-```
-
-Для подключения нужны `pkexec` (setuid-обёртка NixOS) и polkit-агент в сессии.
-
 ## Установка в систему
 
 ```nix
@@ -39,8 +31,7 @@ nix run "github:ВАШ_ЛОГИН/YggGuard?dir=client"
 
 ```nix
 programs.yggguard.peers = [
-  "tcp://ygg-ru.lskd.pw:30041"
-  "quic://cm1.wwire.su:2232"
+  https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
 ];
 ```
 
@@ -49,14 +40,7 @@ programs.yggguard.peers = [
 не меняются: пиры в них правятся в окне профиля.
 
 Системный `services.yggdrasil` для работы YggGuard **не нужен**: у клиента свой узел Yggdrasil (`yggguard0`)
-с собственным ключом из профиля. Запущенный одновременно системный узел создаёт второй интерфейс и
-конфликтует с ним по маршрутам `200::/7`.
-
-## Что отличается от AppImage
-
-- Хелпер запускается прямо из `/nix/store` (root-владелец, неизменяемый), а не копируется в `/tmp`.
-- Пути к `nft` и `resolvectl` прошиты из nixpkgs: PATH под `pkexec` на NixOS не гарантирован.
-- `SHELL` убирается из окружения перед `pkexec`, иначе он ругается на оболочки из `nix develop` и `~/.nix-profile`.
+с собственным ключом из профиля.
 
 ## Если что-то пошло не так
 
