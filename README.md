@@ -38,8 +38,7 @@ programs.yggguard.enable = true;
 
 ## Пиры Yggdrasil
 
-В диалог нового профиля подставляется список российских пиров из `flake.nix` (`defaultPeers`).
-Свой список можно задать в конфиге:
+Список российских пиров нужно задать в конфиге, необходимо для VPS, работающей в сети Yggdrasil:
 
 ```nix
 programs.yggguard.peers = [
