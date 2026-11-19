@@ -1,6 +1,6 @@
 # YggGuard на NixOS
 
-Flake лежит в `client/`. Собирает GUI (Qt6), root-хелпер (Go) и берёт `yggdrasil` и `sing-box` из nixpkgs.
+Flake собирает GUI (Qt6), root-хелпер (Go) и берёт `yggdrasil` и `sing-box` из nixpkgs.
 
 ## Установка в систему
 
@@ -47,3 +47,5 @@ programs.yggguard.peers = [
 - `nix log .#yggguard` для ошибок сборки.
 - Остался `inet yggguard_client` после аварийного завершения: `sudo nft delete table inet yggguard_client`.
 - Версия sing-box из nixpkgs может отличаться от 1.12.x, под которую написан конфиг. Хелпер сделает `sing-box check` и покажет ошибку в журнале.
+
+"Креведке ЕКБ стреляю флейки - nix-юзер"
