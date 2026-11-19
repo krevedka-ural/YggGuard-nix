@@ -6,17 +6,29 @@ Flake собирает GUI (Qt6), root-хелпер (Go) и берёт `yggdrasi
 
 ```nix
 {
-  inputs.yggguard.url = "github:krevedka-ural/YggGuard-nix";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    yggguard = {
+      url = "github:krevedka-ural/YggGuard-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   outputs = { nixpkgs, yggguard, ... }: {
     nixosConfigurations.host = nixpkgs.lib.nixosSystem {
       modules = [
         yggguard.nixosModules.default
-        { programs.yggguard.enable = true; }
       ];
     };
   };
 }
+```
+
+Добавить в свой основной `comfiguration.nix`:
+
+```nix
+programs.yggguard.enable = true;
 ```
 
 Модуль включает `security.polkit`, загружает модули ядра `tun` и `nf_tables`, ставит пакет и выставляет
