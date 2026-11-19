@@ -1,18 +1,13 @@
 {
-  description = "YggGuard — VPN-клиент поверх Yggdrasil (Qt GUI + привилегированный helper)";
+  description = "YggGuard — VPN-клиент поверх Yggdrasil";
 
-  # Положи этот файл в YggGuard/client/ (рядом с CMakeLists.txt) и сделай `git add flake.nix`.
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs = { self, nixpkgs }:
     let
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      systems = [ "x86_64-linux" ];
       forAll = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
 
-      # Пиры Yggdrasil по умолчанию (подставляются в диалог нового профиля).
-      # Ограничения самого YggGuard: от 1 до 16 штук, схемы только tcp://, tls://, quic://
-      # (ws:// клиент отвергнет). IPv6-пиры убраны: у большинства домашних провайдеров РФ
-      # нет IPv6, а недоступные пиры только шумят в журнале.
       defaultPeers = [
         "tcp://45.147.200.202:12402"
         "tls://45.147.200.202:443"
@@ -39,7 +34,6 @@
           peerOk = p: builtins.match "(tcp|tls|quic)://[^[:space:]'\"\\\\]+:[0-9]+" p != null;
           peerLiterals = lib.concatMapStringsSep ", " (p: "\"${p}\"") peers;
 
-          # root-helper: чистый Go без зависимостей
           helper = pkgs.buildGoModule {
             pname = "yggguard-helper";
             version = "0.2.0";
@@ -83,11 +77,6 @@
           buildInputs = [ pkgs.qt6.qtbase pkgs.qt6.qtwayland ];
           cmakeFlags = [ "-DBUILD_TESTING=OFF" ];
 
-          # В AppImage helper и движки копировались в /tmp, потому что pkexec не умел
-          # исполнять файлы из FUSE-монтирования. В Nix это не нужно: /nix/store
-          # неизменяем и принадлежит root, поэтому запускаем helper прямо оттуда.
-          # Заодно закрывается дыра, когда root исполнял бинарники из каталога
-          # обычного пользователя в /tmp.
           # SHELL убираем из окружения: pkexec отказывает, если оболочка вызывающего
           # (например, из `nix develop` или ~/.nix-profile) не указана в /etc/shells.
           postPatch = ''
