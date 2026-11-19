@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=YggGuard
+Comment=VPN through Yggdrasil
+Exec=yggguard
+Icon=yggguard
+Categories=Network;
+Terminal=false
