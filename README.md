@@ -6,7 +6,7 @@ Flake лежит в `client/`. Собирает GUI (Qt6), root-хелпер (Go
 
 ```nix
 {
-  inputs.yggguard.url = "github:ВАШ_ЛОГИН/YggGuard?dir=client";
+  inputs.yggguard.url = "github:krevedka-ural/YggGuard-nix";
 
   outputs = { nixpkgs, yggguard, ... }: {
     nixosConfigurations.host = nixpkgs.lib.nixosSystem {
